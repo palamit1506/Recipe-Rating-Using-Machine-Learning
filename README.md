@@ -1,24 +1,81 @@
-Project Title:
-Recipe for Rating: Predict Food Ratings using ML
+# 🍽️ Recipe Rating Prediction — Machine Learning Project
 
-Project Overview:
-Developed a machine learning model to predict food ratings based on recipe features and user reviews.
+Predicting recipe ratings (0–5 stars) from user reviews and metadata using NLP + Machine Learning.
 
-Key Responsibilities:
+---
 
-Cleaned dataset containing recipe features and user reviews
-Conducted exploratory data analysis to understand data distributions and identify relevant features
-Built and trained machine learning models, including classification algorithms(Logistic Regression, RandomForestClassifier), to predict food ratings
-Evaluated model performance using cross-validation and hyperparameter tuning techniques
-Deployed the final model into production environment for real-time rating predictions
+## 📌 Project Overview
+Recipe platforms often contain written reviews but not every review includes a star rating, which weakens personalization and recommendation quality.  
+This project builds a model that **predicts the star rating purely from user review text and recipe-related features**, helping platforms:
 
-Tools and Technologies Used:
+- Auto-generate missing ratings  
+- Improve recommendation systems  
+- Detect biased or low-effort ratings  
 
-Python (NumPy, pandas, scikit-learn)
-Used TF-IDF for text analysis
-Data visualization libraries (Matplotlib, Seaborn)
-Jupyter Notebook for interactive development and analysis
-Achievements and Outcomes:
+---
 
-Developed a machine learning model with an accuracy of more than 77% in predicting food ratings
+## 📂 Dataset
+| Source | Kaggle — *Recipe for Rating* dataset |
+|--------|-------------------------------------|
+| Training Samples | ~13,600 |
+| Rating Classes | 0–5 stars |
+| Data Types | Text + Numerical + Categorical |
 
+Key features used:
+`RecipeName`, `UserReputation`, `ReplyCount`, `ThumbsUpCount`, `ThumbsDownCount`, `Recipe_Review`
+
+---
+
+## 🧠 Methodology
+
+### 🔹 Data Preprocessing
+- Handled missing text values
+- Dropped ID-type columns not useful for predictions
+- Converted timestamp to datetime format
+- Train-test split
+
+### 🔹 NLP Processing
+- Custom text cleaning (lowercase, removed links, punctuation)
+- **TF–IDF Vectorization** (2000-dimensional feature space)
+
+### 🔹 Numerical & Categorical Features
+- One-Hot Encoding for `RecipeName`
+- Standard Scaling for numeric variables
+
+### 🔹 End-to-end ML Pipeline
+All preprocessing + vectorization + scaling was integrated using **Scikit-learn’s `Pipeline` + `ColumnTransformer`** to ensure modularity and reproducibility.
+
+---
+
+## 🤖 Models Trained & Compared
+
+| Model | Notes |
+|-------|-------|
+| Logistic Regression | Baseline |
+| Random Forest | Ensemble |
+| Support Vector Machine | Non-linear |
+| **HistGradientBoosting Classifier** | ⭐ Best performance |
+
+### 🏆 Best Model Summary
+| Metric | Value |
+|--------|-------|
+| Training Accuracy | 86% |
+| **Test Accuracy** | **78% (Best)** |
+| Generalization | Strong & stable across classes |
+
+---
+
+## 📊 Results & Visualization
+- Target rating distribution
+- Correlation heatmap
+- Box plots for outlier exploration
+- ROC curves for each class (One-vs-Rest)
+- Training vs testing accuracy comparison
+
+---
+
+## 🧪 Test Predictions
+Pipeline inference → Results exported as `submission.csv`:
+
+```python
+prediction = histclf.predict(transformed_test)
